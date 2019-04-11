@@ -56,7 +56,7 @@ public class MySort<T extends Comparable<T>> implements ISort<T> {
 	}
 	
 	private int raondomized_partition(ArrayList<T> unordered,int left , int right) {
-		int random = (int) (Math.random()*(left-right+1)+left); 
+		int random = (int) (Math.random()*(right-left+1)+left); 
 		T value = unordered.get(right);
 		unordered.set(right, unordered.get(random));
 		unordered.set(random, value);
@@ -66,7 +66,7 @@ public class MySort<T extends Comparable<T>> implements ISort<T> {
 	private int partition(ArrayList<T> unordered,int left , int right) {
 		T elemnt = unordered.get(right);
 		int pointer = left;
-		for(int counter=0;counter<right;counter++) {
+		for(int counter=left;counter<right;counter++) {
 			if(unordered.get(counter).compareTo(elemnt) < 0 ) {
 				T value = unordered.get(counter);
 				unordered.set(counter, unordered.get(pointer));
