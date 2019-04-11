@@ -17,7 +17,7 @@ public class MySort<T extends Comparable<T>> implements ISort<T> {
 		//INode<T> newNode = new MyNode<T>();
 		heap.build(unordered);
 		int size = unordered.size();
-		for (int i = 0; i < unordered.size(); i++) {
+		for (int i = 1; i < unordered.size(); i++) {
 			((MyHeap<T>)heap).swap(0, size - i);
 			((MyHeap<T>) heap).heapifySize(size - i, heap.getRoot());
 		}
