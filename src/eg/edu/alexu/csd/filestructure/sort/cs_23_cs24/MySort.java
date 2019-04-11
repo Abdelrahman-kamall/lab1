@@ -47,9 +47,6 @@ public class MySort<T extends Comparable<T>> implements ISort<T> {
 	private void quickSort(ArrayList<T> unordered, int left, int right) {
 		if (left < right) {
 			int q = raondomized_partition(unordered, left, right);
-			T value = unordered.get(q);
-			unordered.set(q, unordered.get(right));
-			unordered.set(right, value);
 			quickSort(unordered, left, q - 1);
 			quickSort(unordered, q + 1, right);
 		}
@@ -74,6 +71,9 @@ public class MySort<T extends Comparable<T>> implements ISort<T> {
 				pointer++;
 			}
 		}
+		T value = unordered.get(right);
+		unordered.set(right, unordered.get(pointer));
+		unordered.set(pointer, value);
 		return pointer;
 	}
 
