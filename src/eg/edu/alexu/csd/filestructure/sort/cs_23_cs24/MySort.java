@@ -3,6 +3,8 @@ package eg.edu.alexu.csd.filestructure.sort.cs_23_cs24;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.management.RuntimeErrorException;
+
 import eg.edu.alexu.csd.filestructure.sort.IHeap;
 import eg.edu.alexu.csd.filestructure.sort.INode;
 import eg.edu.alexu.csd.filestructure.sort.ISort;
@@ -12,28 +14,37 @@ public class MySort<T extends Comparable<T>> implements ISort<T> {
 
 	@Override
 	public IHeap heapSort(ArrayList<T> unordered) {
-		// TODO Auto-generated method stub
-		IHeap<T> heap = new MyHeap<T>();
-		// INode<T> newNode = new MyNode<T>();
-		heap.build(unordered);
-		int size = unordered.size();
-		for (int i = 1; i < unordered.size(); i++) {
-			((MyHeap<T>) heap).swap(0, size - i);
-			((MyHeap<T>) heap).heapifySize(size - i, heap.getRoot());
+
+		if (unordered == null) {
+			throw new RuntimeErrorException(null);
+		} else {
+			// TODO Auto-generated method stub
+			IHeap<T> heap = new MyHeap<T>();
+			// INode<T> newNode = new MyNode<T>();
+			heap.build(unordered);
+			int size = unordered.size();
+			for (int i = 1; i < unordered.size(); i++) {
+				((MyHeap<T>) heap).swap(0, size - i);
+				((MyHeap<T>) heap).heapifySize(size - i, heap.getRoot());
+			}
+			return heap;
 		}
-		return heap;
 	}
 
 	@Override
 	public void sortSlow(ArrayList<T> unordered) {
-		// TODO Auto-generated method stub
-		boolean swaped = true;
-		for (int i = 0; i < unordered.size() && swaped; i++) {
-			swaped = false;
-			for (int j = 0; j < unordered.size() - 1; j++) {
-				if (((Comparable<T>) unordered.get(j + 1)).compareTo((T) unordered.get(j)) < 0) {
-					Collections.swap(unordered, j, j + 1);
-					swaped = true;
+		if (unordered == null) {
+			throw new RuntimeErrorException(null);
+		} else {
+			// TODO Auto-generated method stub
+			boolean swaped = true;
+			for (int i = 0; i < unordered.size() && swaped; i++) {
+				swaped = false;
+				for (int j = 0; j < unordered.size() - 1; j++) {
+					if (((Comparable<T>) unordered.get(j + 1)).compareTo((T) unordered.get(j)) < 0) {
+						Collections.swap(unordered, j, j + 1);
+						swaped = true;
+					}
 				}
 			}
 		}
@@ -41,7 +52,11 @@ public class MySort<T extends Comparable<T>> implements ISort<T> {
 
 	@Override
 	public void sortFast(ArrayList<T> unordered) {
-		quickSort(unordered, 0, unordered.size() - 1);
+		if (unordered == null) {
+			throw new RuntimeErrorException(null);
+		} else {
+			quickSort(unordered, 0, unordered.size() - 1);
+		}
 	}
 
 	private void quickSort(ArrayList<T> unordered, int left, int right) {

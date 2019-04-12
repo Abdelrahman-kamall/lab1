@@ -31,63 +31,79 @@ public class MyHeap<T extends Comparable<T>> implements IHeap<T> {
 	@Override
 	public void heapify(INode<T> node) {
 		// a4t8al nodes walla indeces walla m4 far2a ?
-
+		if(node == null) {
+			throw new RuntimeErrorException(null);
+		}
 		INode<T> lChild = node.getLeftChild();
 		INode<T> rChild = node.getRightChild();
 		INode<T> greatest = node;
+		if (lChild != null) {
+			if (node.getValue().compareTo(lChild.getValue()) < 0) {
+				greatest = lChild;
+			}
 
-		if (node.getValue().compareTo(lChild.getValue()) < 0) {
-			greatest = lChild;
-		}
-
-		if (greatest.getValue().compareTo(rChild.getValue()) < 0) {
-			greatest = rChild;
-		}
-
-		if (((MyNode<T>) greatest).get_index() != ((MyNode<T>) node).get_index()) {
-			T val = greatest.getValue();
-			greatest.setValue(node.getValue());
-			node.setValue(val);
-			heapify(greatest);
+			if (rChild != null) {
+				if (greatest.getValue().compareTo(rChild.getValue()) < 0) {
+					greatest = rChild;
+				}
+			}
+			if (((MyNode<T>) greatest).get_index() != ((MyNode<T>) node).get_index()) {
+				T val = greatest.getValue();
+				greatest.setValue(node.getValue());
+				node.setValue(val);
+				heapify(greatest);
+			}
 		}
 
 	}
 
 	@Override
 	public T extract() {
-		INode<T> root = getRoot();
-		INode<T> last = heap.get(size() - 1);
-		T val = root.getValue();
-		root.setValue(last.getValue());
-		last.setValue(val);
-		heap.remove(heap.size() - 1);
-		heapify(root);
-		return val;
+		if (heap.size() == 0) {
+			throw new RuntimeErrorException(null);
+		} else {
+			INode<T> root = getRoot();
+			INode<T> last = heap.get(size() - 1);
+			T val = root.getValue();
+			root.setValue(last.getValue());
+			last.setValue(val);
+			heap.remove(heap.size() - 1);
+			heapify(root);
+			return val;
+		}
 	}
 
 	@Override
 	public void insert(T element) {
-		INode<T> newNode = new MyNode<T>();
-		newNode.setValue(element);
-		((MyNode<T>) newNode).set_index(heap.size());
-		heap.add(newNode);
+		if (element == null) {
+			throw new RuntimeErrorException(null);
+		} else {
+			INode<T> newNode = new MyNode<T>();
+			newNode.setValue(element);
+			((MyNode<T>) newNode).set_index(heap.size());
+			heap.add(newNode);
 
-		INode<T> parent = newNode.getParent();
-		while (parent.getValue().compareTo(element) < 0) {
-			newNode.setValue(parent.getValue());
-			parent.setValue(element);
-			newNode = parent;
-			parent = parent.getParent();
+			INode<T> parent = newNode.getParent();
+			while (parent != null && parent.getValue().compareTo(element) < 0  ) {
+				newNode.setValue(parent.getValue());
+				parent.setValue(element);
+				newNode = parent;
+				parent = parent.getParent();
+			}
 		}
 	}
 
 	@Override
 	public void build(Collection<T> unordered) {
-		Iterator<T> iterator = unordered.iterator();
-		while (iterator.hasNext()) {
-			T element = iterator.next();
-			insert(element);
+		if (unordered == null) {
+			throw new RuntimeErrorException(null);
+		} else {
+			Iterator<T> iterator = unordered.iterator();
+			while (iterator.hasNext()) {
+				T element = iterator.next();
+				insert(element);
 
+			}
 		}
 
 		/**
@@ -136,7 +152,7 @@ public class MyHeap<T extends Comparable<T>> implements IHeap<T> {
 		public INode<T> getLeftChild() {
 			int LeftChild = index * 2 + 1;
 			if (heap.size() <= LeftChild) {
-				throw new RuntimeErrorException(null);
+				return null;
 			} else {
 				return (INode<T>) heap.get(LeftChild);
 			}
@@ -146,7 +162,7 @@ public class MyHeap<T extends Comparable<T>> implements IHeap<T> {
 		public INode<T> getRightChild() {
 			int rightChild = index * 2 + 2;
 			if (heap.size() <= rightChild) {
-				throw new RuntimeErrorException(null);
+				return null;
 			} else {
 				return (INode<T>) heap.get(rightChild);
 			}
@@ -155,8 +171,8 @@ public class MyHeap<T extends Comparable<T>> implements IHeap<T> {
 		@Override
 		public INode<T> getParent() {
 			int parent = (index - 1) / 2;
-			if (parent < 0) {
-				throw new RuntimeErrorException(null);
+			if (index == 0 ) {
+				return null;
 			}
 			return (INode<T>) heap.get(parent);
 		}
@@ -164,7 +180,7 @@ public class MyHeap<T extends Comparable<T>> implements IHeap<T> {
 		@Override
 		public T getValue() {
 			if (value == null) {
-				throw new RuntimeErrorException(null);
+				return null;
 			} else {
 				return value;
 			}
